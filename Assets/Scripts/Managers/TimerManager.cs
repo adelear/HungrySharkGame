@@ -9,7 +9,7 @@ public class TimerManager : MonoBehaviour
 
     private void Start()
     {
-        currentTime = startTime;
+        currentTime = startTime; 
         UpdateTimerDisplay();
     }
 
