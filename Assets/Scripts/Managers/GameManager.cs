@@ -5,12 +5,11 @@ using System;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : SingletonPersistent<GameManager> 
+{ 
     [SerializeField] GameObject HealthImg;
     [SerializeField] AudioManager asm; 
     [SerializeField] AudioClip LossSound;
-    public static GameManager Instance { get; private set; }
     public enum GameState
     {
         GAME,
@@ -22,15 +21,8 @@ public class GameManager : MonoBehaviour
 
     public event Action OnGameStateChanged;
 
-    public void Awake()
-    {
-        if (Instance == null)
-            Instance = this;
-
-        if (Instance != this)
-            Destroy(gameObject);
-    }
-
+    //Upon change in value in Score, subscribed methods will execute. 
+    //Score will be updated in UI in CanvasManager
     public int Score
     {
         get => score;
