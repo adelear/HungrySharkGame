@@ -16,11 +16,13 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer sr; 
     private float sharkFollowSpeed = 1f;
     private float followDelay = 0.5f;
-    private Vector2 targetPosition; 
+    private Vector2 targetPosition;
+    private Camera mainCamera; 
 
     private void Start()
     {
         targetPosition = transform.position;
+        mainCamera = Camera.main;
         sr = GetComponentInChildren<SpriteRenderer>(); 
     }
 
@@ -37,17 +39,21 @@ public class PlayerController : MonoBehaviour
         if (fish == null) return; 
     }
 
-    private void EatFish(EdibleFish fish)
+    public void EatFish()
     {
         // Increasing size shark
-        transform.localScale += Vector3.one * 0.1f;
-        Destroy(fish.gameObject);
+        GameManager.Instance.Score++;
+        transform.localScale += Vector3.one * 0.2f; ;
+        mainCamera.orthographicSize += 0.2f; 
     }
 
-    private void LoseLife()
+    public void LoseLife()
     {
         // Decreasingg size of shark
-        transform.localScale -= Vector3.one * 0.1f;
+        GameManager.Instance.Lives--; 
+        GameManager.Instance.Score--;
+        transform.localScale += Vector3.one * 0.2f;
+        mainCamera.orthographicSize -= 0.2f;
     }
 
     private void HandleMovement()

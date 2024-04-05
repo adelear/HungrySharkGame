@@ -79,17 +79,9 @@ public class GameManager : SingletonPersistent<GameManager>
 
     void GameOver()
     {
-        SwitchState(GameState.DEFEAT); 
-        SceneManager.LoadScene("GameOver");
+        SwitchState(GameState.DEFEAT);
+        SceneTransitionManager.Instance.LoadScene("MainMenu");
         asm.PlayOneShot(LossSound, false);  
-
-        if (SceneManager.GetActiveScene().name == "GameOver")
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                SceneManager.LoadScene("MainMenu");
-                Lives = 3;
-                Score = 3;
-            }
     }
 
     public GameState GetGameState()

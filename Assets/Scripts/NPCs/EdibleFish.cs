@@ -2,17 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EdibleFish : MonoBehaviour
+public class EdibleFish : NPCFish
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Detected collsion");
+            PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
+            if (playerTransform.localScale.magnitude >= transform.localScale.magnitude)
+            {
+                playerController.EatFish();
+                FishSpawner.Instance.RemoveFishFromPool(gameObject); 
+                Destroy(gameObject);
+            }
+            else
+            {
+                playerController.LoseLife();
+                FishSpawner.Instance.RemoveFishFromPool(gameObject); 
+                Destroy(gameObject);
+            }
+        }
     }
 }
